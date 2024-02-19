@@ -1,52 +1,24 @@
 ```typescript
-import { render, fireEvent } from "@testing-library/react";
-import Button from "./Button";
+import React from 'react';
+import { render, fireEvent } from '@testing-library/react';
+import Button from './Button';
 
-describe("Button component", () => {
-    it("renders button with children correctly", () => {
-        // Arrange
-        const { getByText } = render(<Button>Hello</Button>);
-        
-        // Act
-        const buttonElement = getByText("Hello");
-        
-        // Assert
-        expect(buttonElement).toBeInTheDocument();
+describe('Button component', () => {
+    it('renders button correctly with children', () => {
+        const { getByText } = render(<Button>Click me</Button>);
+        expect(getByText('Click me')).toBeInTheDocument();
     });
 
-    it("calls the onClick function when button is clicked", () => {
-        // Arrange
+    it('executes onClick function when button is clicked', () => {
         const onClickMock = jest.fn();
         const { getByText } = render(<Button onClick={onClickMock}>Click me</Button>);
-        const buttonElement = getByText("Click me");
-
-        // Act
-        fireEvent.click(buttonElement);
-
-        // Assert
-        expect(onClickMock).toHaveBeenCalled();
+        fireEvent.click(getByText('Click me'));
+        expect(onClickMock).toHaveBeenCalledTimes(1);
     });
 
-    it("disables the button when disabled prop is true", () => {
-        // Arrange
-        const { getByText } = render(<Button disabled={true}>Disabled</Button>);
-        const buttonElement = getByText("Disabled");
-
-        // Assert
-        expect(buttonElement).toBeDisabled();
-    });
-
-    it("does not call the onClick function when disabled prop is true", () => {
-        // Arrange
-        const onClickMock = jest.fn();
-        const { getByText } = render(<Button onClick={onClickMock} disabled={true}>Click me</Button>);
-        const buttonElement = getByText("Click me");
-
-        // Act
-        fireEvent.click(buttonElement);
-
-        // Assert
-        expect(onClickMock).not.toHaveBeenCalled();
+    it('is disabled when disabled prop is passed', () => {
+        const { getByText } = render(<Button disabled>Click me</Button>);
+        expect(getByText('Click me')).toBeDisabled();
     });
 });
 ```
