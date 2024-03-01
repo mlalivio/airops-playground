@@ -12,6 +12,7 @@ const Button = ({ onClick, children, disabled }: Props) => {
     console.log("testing");
     console.log("testing");
     console.log("testing");
+    console.log("testing");
 
     return (
         <button className="" onClick={onClick} disabled={disabled}>
