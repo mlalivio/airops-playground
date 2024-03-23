@@ -9,10 +9,7 @@ type Props = {
 
 // Define the Button component
 const Button = ({ onClick, children, disabled }: Props) => {
-    console.log("it works");
     console.log("testing");
-    console.log("testing");
-    console.log("test");
 
     return (
         <button className="" onClick={onClick} disabled={disabled}>
