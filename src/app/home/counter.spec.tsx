@@ -1,43 +1,40 @@
-import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import Counter from './Counter';
+import '@testing-library/jest-dom';
+import Counter from '../Counter';
 
 describe('Counter Component', () => {
-  test('initial count is 0', () => {
+  it('renders the counter component with initial count of 0', () => {
     render(<Counter />);
-    const countElement = screen.getByText(/Counter: 0/i);
-    expect(countElement).toBeInTheDocument();
+    const counterElement = screen.getByText(/counter: 0/i);
+    expect(counterElement).toBeInTheDocument();
   });
 
-  test('increments count by 1 when increment button is clicked', () => {
+  it('increments the counter by 1 when the increment button is clicked', () => {
     render(<Counter />);
-    const incrementButton = screen.getByRole('button', { name: /increment/i });
+    const incrementButton = screen.getByText(/increment/i);
     fireEvent.click(incrementButton);
-    const countElement = screen.getByText(/Counter: 1/i);
-    expect(countElement).toBeInTheDocument();
+    const counterElement = screen.getByText(/counter: 1/i);
+    expect(counterElement).toBeInTheDocument();
   });
 
-  test('decrements count by 1 when decrement button is clicked', () => {
+  it('decrements the counter by 1 when the decrement button is clicked', () => {
     render(<Counter />);
-    const decrementButton = screen.getByRole('button', { name: /decrement/i });
+    const decrementButton = screen.getByText(/decrement/i);
     fireEvent.click(decrementButton);
-    const countElement = screen.getByText(/Counter: -1/i);
-    expect(countElement).toBeInTheDocument();
+    const counterElement = screen.getByText(/counter: -1/i);
+    expect(counterElement).toBeInTheDocument();
   });
 
-  test('increments and decrements count correctly with multiple clicks', () => {
+  it('increments and then decrements the counter when the respective buttons are clicked in sequence', () => {
     render(<Counter />);
-    const incrementButton = screen.getByRole('button', { name: /increment/i });
-    const decrementButton = screen.getByRole('button', { name: /decrement/i });
+    const incrementButton = screen.getByText(/increment/i);
+    fireEvent.click(incrementButton);
+    let counterElement = screen.getByText(/counter: 1/i);
+    expect(counterElement).toBeInTheDocument();
 
-    // Simulate 3 increments and 2 decrements
-    fireEvent.click(incrementButton);
-    fireEvent.click(incrementButton);
-    fireEvent.click(incrementButton);
+    const decrementButton = screen.getByText(/decrement/i);
     fireEvent.click(decrementButton);
-    fireEvent.click(decrementButton);
-
-    const countElement = screen.getByText(/Counter: 1/i);
-    expect(countElement).toBeInTheDocument();
+    counterElement = screen.getByText(/counter: 0/i);
+    expect(counterElement).toBeInTheDocument();
   });
 });
