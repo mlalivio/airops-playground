@@ -1,32 +1,58 @@
-import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import Counter from './Counter';
+import '@testing-library/jest-dom';
+import Counter from '../Counter';
 
 describe('Counter Component', () => {
-  test('initializes count at 0', () => {
+  it('renders correctly with an initial count of 0', () => {
     render(<Counter />);
-    const counterElement = screen.getByText(/Counter: 0/i);
+    const counterElement = screen.getByText(/counter: 0/i);
     expect(counterElement).toBeInTheDocument();
   });
 
-  test('increments count by 1', () => {
+  it('increments the count by 1 when the increment button is clicked', () => {
     render(<Counter />);
-    const incrementButton = screen.getByText('Increment');
+    const incrementButton = screen.getByRole('button', { name: /increment/i });
     fireEvent.click(incrementButton);
-    const counterElement = screen.getByText(/Counter: 1/i);
-    expect(counterElement).toBeInTheDocument();
+    expect(screen.getByText(/counter: 1/i)).toBeInTheDocument();
   });
 
-  test('decrements count by 1', () => {
+  it('decrements the count by 1 when the decrement button is clicked', () => {
     render(<Counter />);
-    const decrementButton = screen.getByText('Decrement');
-
-    // Increment first to avoid going into negative for this demo
-    const incrementButton = screen.getByText('Increment');
-    fireEvent.click(incrementButton);
-
+    const decrementButton = screen.getByRole('button', { name: /decrement/i });
     fireEvent.click(decrementButton);
-    const counterElement = screen.getByText(/Counter: 0/i);
-    expect(counterElement).toBeInTheDocument();
+    expect(screen.getByText(/counter: -1/i)).toBeInTheDocument();
+  });
+
+  it('does not decrement below a minimum count if specified', () => {
+    render(<Counter minCount={0} />);
+    const decrementButton = screen.getByRole('button', { name: /decrement/i });
+    fireEvent.click(decrementButton);
+    expect(screen.getByText(/counter: 0/i)).toBeInTheDocument();
+  });
+
+  it('does not increment beyond a maximum count if specified', () => {
+    render(<Counter maxCount={1} />);
+    const incrementButton = screen.getByRole('button', { name: /increment/i });
+    fireEvent.click(incrementButton);
+    fireEvent.click(incrementButton);
+    expect(screen.getByText(/counter: 1/i)).toBeInTheDocument();
+  });
+
+  it('resets to initial count when reset button is clicked', () => {
+    render(<Counter />);
+    const incrementButton = screen.getByRole('button', { name: /increment/i });
+    fireEvent.click(incrementButton);
+    const resetButton = screen.getByRole('button', { name: /reset/i });
+    fireEvent.click(resetButton);
+    expect(screen.getByText(/counter: 0/i)).toBeInTheDocument();
+  });
+
+  it('increments and decrements the counter when the respective buttons are clicked in sequence', () => {
+    render(<Counter />);
+    const incrementButton = screen.getByRole('button', { name: /increment/i });
+    fireEvent.click(incrementButton);
+    const decrementButton = screen.getByRole('button', { name: /decrement/i });
+    fireEvent.click(decrementButton);
+    expect(screen.getByText(/counter: 0/i)).toBeInTheDocument();
   });
 });
