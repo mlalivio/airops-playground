@@ -1,50 +1,47 @@
 import React from "react";
 import { render, fireEvent, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
-import Counter from "./counter"; // Ensure this import matches the component name exactly
+import Counter from "./counter";
 
 describe("Counter Component", () => {
+  beforeEach(() => {
+    render(<Counter />);
+  });
+
+  it("renders Counter component correctly", () => {
+    const counterText = screen.getByText(/counter:/i);
+    expect(counterText).toBeDefined();
+  });
+
+  it("initial count is set to 0", () => {
+    const initialCount = screen.getByText(/counter: 0/i);
+    expect(initialCount).toBeDefined();
+  });
+
+  describe("Increment button", () => {
+    it("increments count by 1 on click", () => {
+      fireEvent.click(screen.getByText("Increment"));
+      const incrementedCount = screen.getByText(/counter: 1/i);
+      expect(incrementedCount).toBeDefined();
+    });
+  });
+
+  describe("Decrement button", () => {
     beforeEach(() => {
-        // This function runs before each test to render the component fresh for each one
-        render(<Counter />);
+      // Ensuring the counter is incremented before trying to decrement to avoid negative count for this test case
+      fireEvent.click(screen.getByText("Increment"));
     });
 
-    it("should render Counter component correctly", () => {
-        const counterComponent = screen.getByText(/counter:/i);
-        expect(counterComponent).toBeDefined();
+    it("decrements count by 1 on click", () => {
+      fireEvent.click(screen.getByText("Decrement"));
+      const decrementedCount = screen.getByText(/counter: 0/i);
+      expect(decrementedCount).toBeDefined();
     });
+  });
 
-    it("shows initial count as 0", () => {
-        const countValue = screen.getByText(/counter: 0/i);
-        expect(countValue).toBeDefined();
-    });
-
-    it("increments count by 1 when increment button is clicked", () => {
-        const incrementButton = screen.getByText("Increment");
-        fireEvent.click(incrementButton);
-
-        const countValue = screen.getByText(/counter: 1/i);
-        expect(countValue).toBeDefined();
-    });
-
-    it("decrements count by 1 when decrement button is clicked", () => {
-        // First increment the count to avoid going into negative for this particular test
-        const incrementButton = screen.getByText("Increment");
-        fireEvent.click(incrementButton);
-
-        // Now test decrement
-        const decrementButton = screen.getByText("Decrement");
-        fireEvent.click(decrementButton);
-
-        const countValue = screen.getByText(/counter: 0/i);
-        expect(countValue).toBeDefined();
-    });
-
-    it("should not decrement below 0", () => {
-        const decrementButton = screen.getByText("Decrement");
-        fireEvent.click(decrementButton); // Assuming our Counter has no functionality to block at 0. This test will fail if the Counter does stop at 0.
-
-        const countValue = screen.getByText(/counter: -1/i);
-        expect(countValue).toBeDefined(); // This assertion verifies the behavior but also illustrates that the functionality might not be as expected. Consider adjusting the logic in Counter.
-    });
+  it("does not decrement below 0", () => {
+    fireEvent.click(screen.getByText("Decrement"));
+    const countAfterDecrement = screen.queryByText(/counter: -1/i);
+    expect(countAfterDecrement).toBeNull();
+  });
 });
