@@ -6,6 +6,7 @@ import Counter from "./counter";
 describe("Counter Component", () => {
   beforeEach(() => {
     console.log('test');
+    console.log('nice');
     render(<Counter />);
   });
 
