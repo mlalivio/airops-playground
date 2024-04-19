@@ -1,7 +1,7 @@
 import React from "react";
 
 const SimpleList = () => {
-  const items = ["Apple", "Banana", "Orange", "Grapes", "Peach"];
+  const items = ["Apple", "Banana", "Orange", "Grapes", "Peach", "Watermelon"];
 
   return (
     <div>
