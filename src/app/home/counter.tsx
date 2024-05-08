@@ -2,9 +2,7 @@ import React, { useState } from "react";
 
 const Counter = () => {
     const [count, setCount] = useState(0);
-    console.log("adding test");
-    console.log("test");
-    console.log("test");
+    console.log("testing");
 
     const increment = () => {
         setCount(count + 1);
