@@ -7,9 +7,9 @@ const SimpleList = () => {
     <div>
       <h2>Simple List</h2>
       <ul>
-          {items.map((item, index) => (
-              <li key={index}>{item}</li>
-          ))}
+        {items.map((item, index) => (
+          <li key={index}>{item}</li>
+        ))}
       </ul>
     </div>
   );
