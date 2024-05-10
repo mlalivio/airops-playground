@@ -13,30 +13,34 @@ describe("SimpleList component", () => {
     component = render(<SimpleList />);
   });
 
-  it("renders without crashing", () => {
+  it("should render without crashing", () => {
     expect(component).toBeDefined();
   });
 
-  it("displays the correct heading", () => {
-    expect(component.queryByText(/simple list/i)).toBeDefined();
+  it("should display the 'Simple List' heading", () => {
+    expect(component.queryByText("Simple List")).toBeDefined();
   });
 
-  describe("List items correctness", () => {
-    const fruits = ["Apple", "Banana", "Orange"];
-
-    fruits.forEach(fruit => {
-      it(`includes ${fruit}`, () => {
-        expect(component.queryByText(new RegExp(fruit, "i"))).toBeDefined();
-      });
+  describe("Fruit list items", () => {
+    it("should render an item for Apple", () => {
+      expect(component.queryByText("Apple")).toBeDefined();
     });
 
-    it("does not include grapes", () => {
-      expect(component.queryByText(/grapes/i)).toBeNull();
+    it("should render an item for Banana", () => {
+      expect(component.queryByText("Banana")).toBeDefined();
+    });
+
+    it("should render an item for Orange", () => {
+      expect(component.queryByText("Orange")).toBeDefined();
+    });
+
+    it("should not render an item for Grapes", () => {
+      expect(component.queryByText("Grapes")).toBeNull();
     });
   });
 
-  it("renders exactly three fruit items", () => {
-    const listItems = component.container.querySelectorAll("li");
-    expect(listItems.length).toBe(3);
+  it("should render exactly three items in the list", () => {
+    const items = component.container.querySelectorAll("li");
+    expect(items.length).toBe(3);
   });
 });
