@@ -6,49 +6,42 @@ import React from "react";
 import { render } from "@testing-library/react";
 import SimpleList from "./list";
 
-describe("SimpleList", () => {
+describe("SimpleList component", () => {
   let component;
 
   beforeEach(() => {
     component = render(<SimpleList />);
   });
 
-  it("renders without crashing", () => {
+  it("should render without crashing", () => {
     expect(component).toBeDefined();
   });
 
-  it("displays the correct heading", () => {
+  it("should display the correct heading", () => {
     const { queryByText } = component;
-    const heading = queryByText(/simple list/i);
-    expect(heading).toBeDefined();
+    expect(queryByText(/simple list/i)).toBeDefined();
   });
 
-  describe("fruit list rendering", () => {
-    it("includes an apple in the list", () => {
-      const { queryByText } = component;
-      expect(queryByText(/apple/i)).toBeDefined();
+  describe("Fruit list items", () => {
+    it("should include an apple", () => {
+      expect(component.queryByText(/apple/i)).toBeDefined();
     });
 
-    it("includes a banana in the list", () => {
-      const { queryByText } = component;
-      expect(queryByText(/banana/i)).toBeDefined();
+    it("should include a banana", () => {
+      expect(component.queryByText(/banana/i)).toBeDefined();
     });
 
-    it("includes an orange in the list", () => {
-      const { queryByText } = component;
-      expect(queryByText(/orange/i)).toBeDefined();
+    it("should include an orange", () => {
+      expect(component.queryByText(/orange/i)).toBeDefined();
     });
 
-    // Validates the missed fruit as per the updated business logic, fixing the test's expectations.
-    it("does not include grapes in the list", () => {
-      const { queryByText } = component;
-      expect(queryByText(/grapes/i)).not.toBeDefined();
+    it("should not include grapes", () => {
+      expect(component.queryByText(/grapes/i)).toBeNull();
     });
   });
 
-  it("renders exactly three fruit items", () => {
-    const { container } = component;
-    const listItems = container.querySelectorAll("li");
+  it("should render exactly three fruit items", () => {
+    const listItems = component.container.querySelectorAll("li");
     expect(listItems.length).toBe(3);
   });
 });
