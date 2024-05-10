@@ -4,43 +4,33 @@ import { render, fireEvent } from "@testing-library/react";
 import Counter from "./counter";
 
 describe("Counter component", () => {
-  let getByText: ReturnType<typeof render>['getByText'];
+  let getByText;
 
   beforeEach(() => {
     ({ getByText } = render(<Counter />));
   });
 
-  it("renders successfully", () => {
-    expect(getByText(/Counter:/)).toBeDefined();
-  });
-
-  it("initializes with a count of 0", () => {
+  it("should render properly", () => {
     expect(getByText("Counter: 0")).toBeDefined();
   });
 
   describe("Increment button", () => {
-    it("increments count by 1 on click", () => {
+    it("increments count on click", () => {
       fireEvent.click(getByText("Increment"));
       expect(getByText("Counter: 1")).toBeDefined();
     });
   });
 
   describe("Decrement button", () => {
-    beforeEach(() => {
-      // Pre-increment to ensure count is above 0 for decrement tests
-      fireEvent.click(getByText("Increment"));
-    });
-
-    it("decrements count by 1 on click", () => {
+    it("decrements count correctly when count is greater than 0", () => {
+      fireEvent.click(getByText("Increment")); // Setup to 1
       fireEvent.click(getByText("Decrement"));
       expect(getByText("Counter: 0")).toBeDefined();
     });
 
-    it("does not decrement count below 0", () => {
-      // Pre-decrement to ensure testing behavior when count is at 0
-      fireEvent.click(getByText("Decrement"));
-      fireEvent.click(getByText("Decrement"));
-      expect(getByText("Counter: 0")).toBeDefined();
+    it("does not decrement below 0", () => {
+      fireEvent.click(getByText("Decrement")); // Attempt to decrement at 0
+      expect(getByText("Counter: 0")).toBeDefined(); // Corrected expected value based on functionality
     });
   });
 });
