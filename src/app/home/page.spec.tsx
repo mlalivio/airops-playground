@@ -6,6 +6,7 @@ import Home from "./page";
 describe("Home Component", () => {
   beforeEach(() => {
     // Render the Home component before each test
+    console.log("test");
     render(<Home />);
   });
 
