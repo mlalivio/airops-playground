@@ -5,7 +5,9 @@ function HelloWorld() {
     "Hello, World!",
     "Hola, Mundo!",
     "Bonjour, le Monde!",
+    "Bonjou!",
   ]);
+
   const [newGreeting, setNewGreeting] = useState("");
 
   const handleAddGreeting = () => {
