@@ -7,6 +7,7 @@ describe("HelloWorld", () => {
   let inputElement: any, buttonElement: any;
 
   beforeEach(() => {
+    console.log("test");
     render(<HelloWorld />);
     inputElement = screen.getByPlaceholderText(/add new greeting/i);
     buttonElement = screen.getByRole("button", { name: /add greeting/i });

@@ -5,6 +5,7 @@ import HelloWorld from "./hello";
 describe("HelloWorld Component", () => {
   beforeEach(() => {
     render(<HelloWorld />);
+    console.log("test");
   });
 
   it("should be defined", () => {
