@@ -5,21 +5,22 @@ import HelloWorld from "./hello";
 describe("HelloWorld Component", () => {
   beforeEach(() => {
     render(<HelloWorld />);
-    console.log("test");
   });
 
-  it("should be defined", () => {
-    const helloWorldComp = screen.getByText(/hello, world!/i);
-    expect(helloWorldComp).toBeDefined();
+  it("renders hello world message initially", () => {
+    const initialMessage = screen.getByText(/hello, world!/i);
+    expect(initialMessage).toBeDefined();
   });
 
-  it('should display initial message "Hello, World!"', () => {
-    expect(screen.getByText(/hello, world!/i)).toBeDefined();
-  });
+  describe("when the button is clicked", () => {
+    beforeEach(() => {
+      const button = screen.getByRole("button");
+      fireEvent.click(button);
+    });
 
-  it('should change message to "You clicked the button!" when button is clicked', () => {
-    const button = screen.getByRole("button");
-    fireEvent.click(button);
-    expect(screen.getByText(/you clicked the button!/i)).toBeDefined();
+    it('displays "You clicked the button!" message', () => {
+      const clickedMessage = screen.getByText(/you clicked the button!/i);
+      expect(clickedMessage).toBeDefined();
+    });
   });
 });
