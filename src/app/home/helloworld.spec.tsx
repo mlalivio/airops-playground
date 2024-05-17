@@ -4,8 +4,8 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import HelloWorld from "./helloworld";
 
 describe("HelloWorld Component", () => {
-  let inputElement;
-  let buttonElement;
+  let inputElement: any;
+  let buttonElement: any;
 
   beforeEach(() => {
     render(<HelloWorld />);
@@ -20,9 +20,9 @@ describe("HelloWorld Component", () => {
         "Hola, Mundo!",
         "Bonjour, le Monde!",
         "Bonjou!",
-        "Bonjour!"
+        "Bonjour!",
       ];
-      initialGreetings.forEach(greeting => {
+      initialGreetings.forEach((greeting) => {
         expect(screen.getByText(greeting)).toBeDefined();
       });
     });
@@ -66,8 +66,9 @@ describe("HelloWorld Component", () => {
       // Ensure unique greetings list by adding a duplicate "Hello, World!"
       fireEvent.change(inputElement, { target: { value: "Hello, World!" } });
       fireEvent.click(buttonElement);
-      
-      const greetingsListItemsAfterDuplicateAdd = screen.getAllByRole("listitem");
+
+      const greetingsListItemsAfterDuplicateAdd =
+        screen.getAllByRole("listitem");
       // Expect the list length not to change because "Hello, World!" is a duplicate
       expect(greetingsListItemsAfterDuplicateAdd).toHaveLength(5);
     });
